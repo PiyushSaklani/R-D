@@ -125,7 +125,7 @@ print("\033[35mCreated\033[00m")
 
 sumofallFINALInteraction = 0
 for j in range(rows): sumofallFINALInteraction += len(matrix[j, 0])
-print(f"\033[33m{sumofallFINALInteraction=}")
+print(f"\033[33m{sumofallFINALInteraction=}\033[00m")
 print(f"Diff: \033[92m{sumofallFINALInteraction-sumofallInteraction}\033[00m")
 
 check_pct(new_int_list,range_list)
