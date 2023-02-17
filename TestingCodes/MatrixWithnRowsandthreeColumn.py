@@ -18,25 +18,26 @@ def random_valandpct(range_list,population_pct,all_lists,p):
         p = p + [j/len(temp_list)]*len(temp_list)
     return all_lists,p
 
-#! Code
 #* Comment 1: Time function which returns the current time.
 def current_time():
     now = datetime.now()
     return now.strftime("%H:%M:%S")
 
+
+#! Code
 #* Comment 2: Noting the code start time 
 start_time = current_time()
 start = time.time()
 
 #* Comment 3: Defining the number of rows in the matrix.
-rows = 10000
+rows = 100
 
-#* Age Group = 0-4, 
+#* Age Group = 0-4, 5-19, 20-24, 25-60, 60+
 #* Comment 4: This is a interaction range according to the age group.
 range_list = [[100,125],[150,175],[200,250],[300,325],[350,375]]
 
 #* Comment 5: This is a population percentage according to the age group.
-population_pct = [0.1,0.2,0.5,0.1,0.1]
+population_pct = [0.08,0.28,0.1,0.45,0.09]
 
 #* Comment 6: List which stores the values and percentage for random selection.
 all_lists, p = random_valandpct(range_list,population_pct,[],[])

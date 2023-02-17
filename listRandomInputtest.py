@@ -1,5 +1,6 @@
 import numpy as np 
 #* pip install numpy or pip3 install numpy
+import random as rm
 from datetime import datetime
 import time
 
@@ -18,18 +19,18 @@ def random_valandpct(range_list,population_pct,all_lists,p):
         p = p + [j/len(temp_list)]*len(temp_list)
     return all_lists,p
 
-#! Code
 #* Comment 1: Time function which returns the current time.
 def current_time():
     now = datetime.now()
     return now.strftime("%H:%M:%S")
 
+#! Code
 #* Comment 2: Noting the code start time 
 start_time = current_time()
 start = time.time()
 
 #* Comment 3: Defining the number of rows in the matrix.
-rows = 100
+rows = 50
 
 #* Comment 4: This is a interaction range according to the age group.
 range_list = [[1,10]]
@@ -56,23 +57,34 @@ matrix[:, 2] = np.random.choice(int_list, size=rows)
 
 #! Writing new code
 
-connections = list(range(0,rows-1))
-print(f"{connections=}")
-loopsize = matrix[0,2]-len(matrix[0,0])
-print(f"{len(connections)=} , {len(list([1/rows]*(rows-1)))=}")
-interaction = np.random.randint(connections,size=loopsize)
-print(f"{interaction=}")
-i = 0
-while i < len(matrix):
-    loopsize = matrix[i,2]-len(matrix[i,0])
-    interaction = np.random.choice(connections,size=loopsize)
-    weight = np.random.choice([1,2,3],size=loopsize)
-    for j in range(loopsize):
-        matrix[i,0].append(interaction[j])
-        matrix[i,1].append(weight[j])
-        matrix[interaction[j],0].append(i)
-        matrix[interaction[j],1].append(weight[j])
-    i += 1
+interaction_level = [1,2,3]
+print(f"{interaction_level=}")
+
+population_alc_list = list(range(0,rows))
+print(f"{population_alc_list=}")
+
+# population_alc_pct = [1/rows]*rows
+# print(f"{population_alc_pct=}")
+
+sumofallInteraction = 0
+for j in range(rows): sumofallInteraction += matrix[j, 2]
+print(f"{sumofallInteraction=}")
+
+for k in range(rows):
+    while len(matrix[k, 0]) < matrix[k, 2]:
+
+        relation = rm.choice(population_alc_list)
+        interaction = rm.choice(interaction_level)
+
+        if relation not in matrix[k, 0] and k not in matrix[relation, 0]:
+            matrix[k, 0].append(relation)
+            matrix[k, 1].append(interaction)
+            matrix[relation, 0].append(k)
+            matrix[relation, 1].append(interaction)
+
+sumofallFINALInteraction = 0
+for j in range(rows): sumofallFINALInteraction += len(matrix[j, 0])
+print(f"{sumofallFINALInteraction=}")
 
 #! -- -- -- -- -- --
 
