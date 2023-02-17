@@ -58,10 +58,10 @@ matrix[:, 2] = np.random.choice(int_list, size=rows)
 #! Writing new code
 
 interaction_level = [1,2,3]
-print(f"{interaction_level=}")
+# print(f"{interaction_level=}")
 
 population_alc_list = list(range(0,rows))
-print(f"{population_alc_list=}")
+# print(f"{population_alc_list=}")
 
 # population_alc_pct = [1/rows]*rows
 # print(f"{population_alc_pct=}")
@@ -109,8 +109,8 @@ for k in range(rows):
 
 sumofallFINALInteraction = 0
 for j in range(rows): sumofallFINALInteraction += len(matrix[j, 0])
-print(f"{sumofallFINALInteraction=}\033[00m")
-print(f"\033[92m{sumofallFINALInteraction-sumofallInteraction}\033[00m")
+print(f"{sumofallFINALInteraction=}")
+print(f"Diff: \033[92m{sumofallFINALInteraction-sumofallInteraction}\033[00m")
 
 #! -- -- -- -- -- --
 
@@ -125,4 +125,13 @@ end_time = current_time()
 print(f"\n\t\033[90mStarted at : {start_time}\n\tEnd at : {end_time}\n\n\t\033[36m\033[01mTime taken : {(end-start)} s\033[00m\n")
 
 #* Comment 14: Checking that random values are in correct propotion.
+print("\033[35mExpected\033[00m")
 check_pct(int_list,range_list)
+
+new_int_list = []
+for m in range(len(matrix)):
+    new_int_list.append(matrix[m, 2])
+
+print("-"*40)
+print("\033[35mCreated\033[00m")
+check_pct(new_int_list,range_list)
