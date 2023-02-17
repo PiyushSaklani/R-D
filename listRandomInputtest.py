@@ -33,10 +33,10 @@ start = time.time()
 rows = 50
 
 #* Comment 4: This is a interaction range according to the age group.
-range_list = [[1,10]]
+range_list = [[1,2],[5,8],[10,15]]
 
 #* Comment 5: This is a population percentage according to the age group.
-population_pct = [1]
+population_pct = [0.33,0.33,0.34]
 
 #* Comment 6: List which stores the values and percentage for random selection.
 all_lists, p = random_valandpct(range_list,population_pct,[],[])
@@ -68,25 +68,49 @@ print(f"{population_alc_list=}")
 
 sumofallInteraction = 0
 for j in range(rows): sumofallInteraction += matrix[j, 2]
-print(f"{sumofallInteraction=}")
+print(f"\033[33m{sumofallInteraction=}")
 
 for k in range(rows):
+    # print(f"\n{k=} {matrix[k, 2]=}")
+    l = 1
     while len(matrix[k, 0]) < matrix[k, 2]:
 
         relation = rm.choice(population_alc_list)
         interaction = rm.choice(interaction_level)
 
-        if relation not in matrix[k, 0] and k not in matrix[relation, 0]:
+        # print(f"{relation=} {l=}")
+        # time.sleep(0.5)
+
+        if relation not in matrix[k, 0] and k not in matrix[relation, 0] and k != relation:
             matrix[k, 0].append(relation)
             matrix[k, 1].append(interaction)
             matrix[relation, 0].append(k)
             matrix[relation, 1].append(interaction)
 
+        elif all(x in matrix[k, 0] for x in population_alc_list[1:]):
+            # print(f"{population_alc_list[1:]=}")
+
+            new_row = np.array([[[], [], 0]], dtype=object)
+            matrix = np.append(matrix, new_row, axis=0)
+
+            population_alc_list.append(len(matrix)-1)
+
+            matrix[k, 0].append(len(matrix)-1)
+            matrix[k, 1].append(interaction)
+            matrix[len(matrix)-1, 0].append(k)
+            matrix[len(matrix)-1, 1].append(interaction)
+
+        np.savetxt("test_matrix.txt", matrix, delimiter=",", fmt='%s')
+        l += 1
+
     population_alc_list.remove(k)
+    # print(f"{population_alc_list=}")
+    
 
 sumofallFINALInteraction = 0
 for j in range(rows): sumofallFINALInteraction += len(matrix[j, 0])
-print(f"{sumofallFINALInteraction=}")
+print(f"{sumofallFINALInteraction=}\033[00m")
+print(f"\033[92m{sumofallFINALInteraction-sumofallInteraction}\033[00m")
 
 #! -- -- -- -- -- --
 
@@ -101,4 +125,4 @@ end_time = current_time()
 print(f"\n\t\033[90mStarted at : {start_time}\n\tEnd at : {end_time}\n\n\t\033[36m\033[01mTime taken : {(end-start)} s\033[00m\n")
 
 #* Comment 14: Checking that random values are in correct propotion.
-# check_pct(int_list,range_list)
+check_pct(int_list,range_list)
