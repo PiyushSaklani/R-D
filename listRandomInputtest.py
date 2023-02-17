@@ -82,6 +82,8 @@ for k in range(rows):
             matrix[relation, 0].append(k)
             matrix[relation, 1].append(interaction)
 
+    population_alc_list.remove(k)
+
 sumofallFINALInteraction = 0
 for j in range(rows): sumofallFINALInteraction += len(matrix[j, 0])
 print(f"{sumofallFINALInteraction=}")
