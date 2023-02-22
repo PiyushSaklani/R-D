@@ -30,7 +30,9 @@ if __name__ == "__main__":
     for index,process in enumerate(mprocess):
         process.join()
 
-    # print(f"\033[33mThreads : {threads}\033[00m")
+    # print(f"\033[33mThreads : {threads}\033[00m") 
+
+    print(mprocess)
 
     end = time.time()
     now = datetime.now()

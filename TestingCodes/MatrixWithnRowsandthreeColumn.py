@@ -1,6 +1,9 @@
 import numpy as np 
 #* pip install numpy or pip3 install numpy
 import random as rm
+#* pip install random
+from tqdm import tqdm
+#* pip install tqdm
 from datetime import datetime
 import time
 
@@ -9,8 +12,13 @@ def filter_list(check_list,a,b):
     return len(list(filter(lambda x: a <= x <= b, check_list)))
 
 def check_pct(check_list,range_list):
+    acc = 0
     for a,b in range_list:
-        print(f"\033[90mPercentage of numbers in the range {a}-{b} : {round(filter_list(check_list,a,b) / len(check_list) * 100,2)}\033[00m")
+        val = round(filter_list(check_list,a,b) / len(check_list) * 100,2)
+        print(f"\033[90mPercentage of numbers in the range {a}-{b} : {val}\033[00m")
+        acc += val
+    
+    return acc
 
 def random_valandpct(range_list,population_pct,all_lists,p):
     for i,j in zip(range_list,population_pct):
@@ -31,13 +39,15 @@ def append_matrix(x,y,z):
     matrix[y, 0].append(x)
     matrix[y, 1].append(z)
 
+print("\n\t\033[01m\033[34mStarted\n\033[00m")
+
 #! Code
 #* Comment 2: Noting the code start time 
 start_time = current_time()
 start = time.time()
 
 #* Comment 3: Defining the number of rows in the matrix.
-rows = 1000000
+rows = 100000
 
 #* Age Group = 0-4, 5-19, 20-24, 25-60, 60+
 #* Comment 4: This is a interaction range according to the age group.
@@ -59,7 +69,7 @@ int_list = np.random.choice(all_lists, size=rows, p=p)
 matrix = np.empty((rows, 3), dtype=object)
 
 #* Comment 10: Assigning empty list in the 0 and 1 index.
-for i in range(rows):
+for i in tqdm(range(rows)):
     matrix[i, 0] = []
     matrix[i, 1] = []
 
@@ -68,8 +78,10 @@ matrix[:, 2] = np.random.choice(int_list, size=rows)
 
 #* Comment 12: This is a list of population.
 population_alc_list = list(range(0,rows))
-print("\n\tStarted\n")
-for k in range(rows):
+
+print()
+
+for k in tqdm(range(rows)):
     while len(matrix[k, 0]) < matrix[k, 2]:
 
         #* Comment 13: This is a interaction and interaction level.
@@ -110,6 +122,8 @@ print(f"\n\t\033[90mStarted at : {start_time}\n\tEnd at : {end_time}\n\n\t\033[3
 #* Comment 24: Checking that random values are in correct propotion.
 print("\033[35mExpected\033[00m")
 
+print(f"\033[92mPopulation Number: {rows}\033[00m")
+
 sumofallInteraction = 0
 for j in range(rows): sumofallInteraction += matrix[j, 2]
 print(f"\033[33m{sumofallInteraction=}\033[00m")
@@ -119,13 +133,17 @@ check_pct(int_list,range_list)
 new_int_list = []
 for l in range(len(matrix)):new_int_list.append(matrix[l, 2])
 
-print("-"*40)
+print("-"*45)
 
 print("\033[35mCreated\033[00m")
+
+print(f"\033[92mPopulation Number: {len(matrix)}\033[00m")
 
 sumofallFINALInteraction = 0
 for j in range(rows): sumofallFINALInteraction += len(matrix[j, 0])
 print(f"\033[33m{sumofallFINALInteraction=}\033[00m")
 print(f"Diff: \033[92m{sumofallFINALInteraction-sumofallInteraction}\033[00m")
 
-check_pct(new_int_list,range_list)
+acc = check_pct(new_int_list,range_list)
+
+# print(f"\n\t\033[01m\033[34mAccuracy: {acc}%\n\033[00m")
